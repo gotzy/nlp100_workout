@@ -20,9 +20,8 @@ https://nlp100.github.io/data/jawiki-country.json.gz
 この前提で進める。
 
 ---
-20. JSONデータの読み込み
-Wikipedia記事のJSONファイルを読み込み，「イギリス」に関する記事本文を表示せよ．
-問題21-29では，ここで抽出した記事本文に対して実行せよ．
+23. セクション構造
+記事中に含まれるセクション名とそのレベル（例えば”== セクション名 ==”なら1）を表示せよ．
 """
 
 # q_20
@@ -35,21 +34,19 @@ with gzip.open('./03_dir/jawiki-country.json.gz', 'r') as f:
         obj = json.loads(line)
         articles.append(obj)
 
-for i,x in enumerate(articles):
-    if x['title']=='イギリス':
-        print(x)
-        # print(i)
-
-
 ####
 
+import re
 
-
-
-
-
-
-
+# q_23
+for i,x in enumerate(articles):
+    if x['title']=='イギリス':
+        for z in x['text'].split('\n'):
+            if z.startswith('='):
+                section_name=re.sub('=|\s','',z)
+                level=list(z).count('=') // 2 -1
+                print(section_name,level)
+ 
 
 
 

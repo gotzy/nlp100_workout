@@ -20,9 +20,8 @@ https://nlp100.github.io/data/jawiki-country.json.gz
 この前提で進める。
 
 ---
-20. JSONデータの読み込み
-Wikipedia記事のJSONファイルを読み込み，「イギリス」に関する記事本文を表示せよ．
-問題21-29では，ここで抽出した記事本文に対して実行せよ．
+25. テンプレートの抽出
+記事中に含まれる「基礎情報」テンプレートのフィールド名と値を抽出し，辞書オブジェクトとして格納せよ．
 """
 
 # q_20
@@ -35,21 +34,39 @@ with gzip.open('./03_dir/jawiki-country.json.gz', 'r') as f:
         obj = json.loads(line)
         articles.append(obj)
 
-for i,x in enumerate(articles):
-    if x['title']=='イギリス':
-        print(x)
-        # print(i)
-
-
 ####
 
+import re
+
+# q_25
+
+ls_res=list()
+for i,x in enumerate(articles):
+    if x['title']=='イギリス':
+        cond=0
+        for y in x['text'].split('\n'):
+            if y.startswith('{{基礎情報 '):
+                cond=1
+            if y.startswith('}}'):
+                break
+            
+            if cond==1:
+                if y.startswith('{{基礎情報 ') or y.startswith('*'):
+                    pass
+                else:
+                    if len(re.split('\s+=\s*', y.replace('|','') ))==2:
+                        ls_res.append( re.split('\s+=\s*', y.replace('|','') ) )
 
 
 
+from collections import OrderedDict
+                
+dt_res=OrderedDict()
 
+for a,b in ls_res:
+    dt_res[a]=b
 
-
-
+            
 
 
 
