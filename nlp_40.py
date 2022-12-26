@@ -18,7 +18,7 @@ https://nlp100.github.io/data/ai.ja.zip
 
 以下のコマンド
 unzip ai.ja.zip  # ai.ja.txt ができる
-cat ai.ja.txt | cabocha > ai.ja.txt.parsed
+cat ai.ja.txt | cabocha -f1 > ai.ja.txt.parsed
 で係り受け解析し、以下のように保存
 ./05_dir/ai.ja.txt.parsed
 
@@ -31,16 +31,39 @@ cat ai.ja.txt | cabocha > ai.ja.txt.parsed
 冒頭の説明文の形態素列を表示せよ．
 """
 
-import pandas as pd
 
-with open('./05_dir/ai.ja.txt.parsed') as f:
-    ls=[ x.rstrip('\n') for i,x in enumerate(f.readlines()) ]
-    
+class Morph:
+    def __init__(self, dc):
+        self.surface = dc['surface']
+        self.base = dc['base']
+        self.pos = dc['pos']
+        self.pos1 = dc['pos1']
+
+
+def f01(a):
+    res = []
+    for line in a.split('\n'):
+        if line == '':
+            return res
+        elif line[0] == '*':
+            continue
+        (surface, attr) = line.split('\t')
+        attr = attr.split(',')
+        dca = {
+            'surface': surface,
+            'base': attr[6],
+            'pos': attr[0],
+            'pos1': attr[1]
+        }
+        res.append(Morph(dca))
 
 
 
-
-
+with open('05_dir/ai.ja.txt.parsed') as f:
+    d = f.read().split('EOS\n')
+d = [f01(a) for a in d  if a!='' ]
+for x in d[2]:
+    print(vars(x))
 
 
 
