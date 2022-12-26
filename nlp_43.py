@@ -23,22 +23,18 @@ cat ai.ja.txt | cabocha -f1 > ai.ja.txt.parsed
 ./05_dir/ai.ja.txt.parsed
 
 ---
-41. 係り受け解析結果の読み込み（文節・係り受け）
-
-40に加えて，文節を表すクラスChunkを実装せよ．
-
-このクラスは
-形態素（Morphオブジェクト）のリスト（morphs），
-係り先文節インデックス番号（dst），
-係り元文節インデックス番号のリスト（srcs）
-をメンバ変数に持つこととする．
-
-さらに，入力テキストの係り受け解析結果を読み込み，
-１文をChunkオブジェクトのリストとして表現し，
-冒頭の説明文の文節の文字列と係り先を表示せよ．
-
-本章の残りの問題では，ここで作ったプログラムを活用せよ．
+43. 名詞を含む文節が動詞を含む文節に係るものを抽出
+名詞を含む文節が，動詞を含む文節に係るとき，これらをタブ区切り形式で抽出せよ．
+ただし，句読点などの記号は出力しないようにせよ．
 """
+
+## setting_parameter ####
+
+N=1  
+
+#########################
+
+
 
 class Morph:
     def __init__(self, dc):
@@ -98,9 +94,45 @@ with open(filename, mode='rt', encoding='utf-8') as f:
     blocks = [ x for x in f.read().split('EOS\n') if x!='' ]
 blocks = [f02(block) for block in blocks]
 
-    
-for x in blocks[1]:
-    print(x[0],x[1].srcs , x[1].dst, [ y.surface for y in x[1].morphs ])
+
+
+def f03(nn_):
+    bb=blocks[nn_]
+    for j,x in enumerate(bb):
+        dst01=x[1].dst
+        z=bb[dst01]
+        if dst01 != -1 :
+            print(N,
+                  x[0],
+                  dst01,
+                  ''.join([ xx.surface for xx in x[1].morphs if xx.pos!='記号' ]), 
+                  ''.join([ zz.surface for zz in z[1].morphs if zz.pos!='記号' ]) 
+                  ,sep='\t')
+
+# f03(N)
+
+
+
+def f04(nn_):
+    bb=blocks[nn_]
+    for j,x in enumerate(bb):
+        dst01=x[1].dst
+        z=bb[dst01]
+        xxx=[ xx.pos for xx in x[1].morphs if xx.pos=='名詞']
+        zzz=[ zz.pos for zz in z[1].morphs if zz.pos=='動詞']
+        if dst01 != -1 and len(xxx)>0 and len(zzz)>0 :
+            print(N,
+                  x[0],
+                  dst01,
+                  ''.join([ xx.surface for xx in x[1].morphs if xx.pos!='記号' ]), 
+                  ''.join([ zz.surface for zz in z[1].morphs if zz.pos!='記号' ]) 
+                  ,sep='\t')
+
+
+f04(N)
+
+
+
 
 
 
