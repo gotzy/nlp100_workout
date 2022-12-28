@@ -138,11 +138,12 @@ f50( df06 , '06_dir/test.txt' )
 
 
 # unix command
-# wc -l train.txt valid.txt test.txt 
-#    10683 train.txt
+# wc -l train.txt valid.txt test.txt
+#    10673 train.txt
 #     1335 valid.txt
 #     1335 test.txt
-#    13353 total
+#    13343 total
+
 
 
 
