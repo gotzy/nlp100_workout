@@ -82,7 +82,6 @@ df03=df02.iloc[ls02,:]
 df03=df03.reset_index(drop=True)
 
 
-
 ############################################################################
 # 4. 抽出された事例の80%を学習データ，
 #    残りの10%ずつを
@@ -98,33 +97,27 @@ df03=df03.reset_index(drop=True)
 print(df03.shape[0])
 # 13340
 
+df03b=df03[['CATEGORY','TITLE']]
+
 # train
-df04=df03.iloc[:1334*8, :]
+df04=df03b.iloc[:1334*8, :]
 print(df04.shape[0])
 
 # valid
-df05=df03.iloc[1334*8:1334*9, :]
+df05=df03b.iloc[1334*8:1334*9, :]
 print(df05.shape[0])
 
 # test
-df06=df03.iloc[1334*9:, :]
+df06=df03b.iloc[1334*9:, :]
 print(df06.shape[0])
 
 
-df04.to_csv('06_dir/train.txt', index=False)
 
-
-df05.to_csv('06_dir/valid.txt', index=False)
-df06.to_csv('06_dir/test.txt', index=False)
-
-
-colname='\t'.join(df04.columns)
-
-
+# colname='\t'.join(df04.columns)
 
 def f50(df_,fname_):
     with open(fname_, 'w') as f:
-        print(colname, file=f)
+        # print(colname, file=f)
         for i in range(df_.shape[0]):
             res=[ str(x) for x in df_.iloc[i,:].values.tolist()]
             res2='\t'.join(res)
@@ -137,12 +130,12 @@ f50( df06 , '06_dir/test.txt' )
 
 
 
-# unix command
+## unix command
 # wc -l train.txt valid.txt test.txt
-#    10673 train.txt
-#     1335 valid.txt
-#     1335 test.txt
-#    13343 total
+#    10672 train.txt
+#     1334 valid.txt
+#     1334 test.txt
+#    13340 total
 
 
 
