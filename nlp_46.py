@@ -23,17 +23,25 @@ cat ai.ja.txt | cabocha -f1 > ai.ja.txt.parsed
 ./05_dir/ai.ja.txt.parsed
 
 ---
-44. 係り受け木の可視化
-与えられた文の係り受け木を有向グラフとして可視化せよ．
-可視化には，Graphviz等を用いるとよい．
+46. 動詞の格フレーム情報の抽出
+45のプログラムを改変し，述語と格パターンに続けて項（述語に係っている文節そのもの）をタブ区切り形式で出力せよ．
+45の仕様に加えて，以下の仕様を満たすようにせよ．
 
-## https://qiita.com/vegetal/items/6d8f036ab5b7b37b3d74
+項は述語に係っている文節の単語列とする（末尾の助詞を取り除く必要はない）
+述語に係る文節が複数あるときは，助詞と同一の基準・順序でスペース区切りで並べる
+「ジョン・マッカーシーはAIに関する最初の会議で人工知能という用語を作り出した。」という例文を考える． 
+この文は「作り出す」という１つの動詞を含み，
+「作り出す」に係る文節は「ジョン・マッカーシーは」，「会議で」，「用語を」であると解析された場合は，
+次のような出力になるはずである．
+--
+作り出す	で は を	会議で ジョンマッカーシーは 用語を
+--
 
 """
 
 ## setting_parameter ####
 
-N=1
+N=1  
 
 #########################
 
@@ -100,25 +108,42 @@ blocks = [f02(block) for block in blocks]
 
 
 
-def f05(nn_):
-    print('文番号: ', nn_)
-    from graphviz import Digraph
-    graph = Digraph(format="png")
+from collections import OrderedDict
 
+with open('05_dir/output_46','w') as f:
+    pass
+    
+def f07(nn_):
+    od = OrderedDict()
+    
     bb=blocks[nn_]
     for j,x in enumerate(bb):
-        dst01=x[1].dst
-        z=bb[dst01]
-        if dst01 != -1 :
-            node1 = ''.join([ xx.surface for xx in x[1].morphs if xx.pos!='記号' ]) + '({0})'.format(j)
-            node2 = ''.join([ zz.surface for zz in z[1].morphs if zz.pos!='記号' ]) + '({0})'.format(dst01) 
-            graph.edge(node1, node2)
+        # dst01=x[1].dst
+        # z=bb[dst01]
+        xxx=[ xx.pos for xx in x[1].morphs if xx.pos=='動詞']
+        aaa=x[1].srcs
+        if  len(xxx)>0 and len(aaa)>0 :
+            vb=''.join([ xx.base for xx in x[1].morphs if xx.pos=='動詞' ][:1]) 
+            for p in aaa:
+                z=bb[p]
+                ppt=[ zz.surface for zz in z[1].morphs if zz.pos=='助詞' ][-1:]
+                ppt2=[ zz.surface for zz in z[1].morphs ]
+                
+                if len(ppt)==1:
+                    pt=''.join(ppt)
+                    pt2=''.join(ppt2)
+                    od[vb] = od.get(vb,[]) + [[pt,pt2]]
+    
+    
+    with open('05_dir/output_46','a') as f:
+        for x in od:
+            y=' '.join([ a for a,b in sorted(od[x]) ] + [ b for a,b in sorted(od[x]) ])
+            print(x , y , sep='\t' , file=f )            
             
-    graph.render("image/output")
-    graph.view()
             
+for k in range(len(blocks)):
+    f07(k)
 
-f05(N)
 
 
 

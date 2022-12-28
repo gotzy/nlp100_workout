@@ -96,21 +96,6 @@ blocks = [f02(block) for block in blocks]
 
 
 
-def f03(nn_):
-    bb=blocks[nn_]
-    for j,x in enumerate(bb):
-        dst01=x[1].dst
-        z=bb[dst01]
-        if dst01 != -1 :
-            print(N,
-                  x[0],
-                  dst01,
-                  ''.join([ xx.surface for xx in x[1].morphs if xx.pos!='記号' ]), 
-                  ''.join([ zz.surface for zz in z[1].morphs if zz.pos!='記号' ]) 
-                  ,sep='\t')
-
-# f03(N)
-
 
 
 def f04(nn_):
