@@ -138,11 +138,24 @@ f50( df06 , '06_dir/test.txt' )
 #    13340 total
 
 
+# awk '{print $1}' train.txt| sort| uniq -c 
+# 4478 b
+# 4226 e
+#  741 m
+# 1227 t
 
 
+# awk '{print $1}' test.txt| sort| uniq -c
+#  583 b
+#  528 e
+#   79 m
+#  144 t
 
-
-
+# awk '{print $1}' valid.txt| sort| uniq -c
+#  566 b
+#  525 e
+#   90 m
+#  153 t
 
 
 
