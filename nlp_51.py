@@ -19,27 +19,10 @@ https://archive.ics.uci.edu/ml/machine-learning-databases/00359/NewsAggregatorDa
 この前提で進める。
 
 ---
-50. データの入手・整形
-News Aggregator Data Setをダウンロードし、
-以下の要領で学習データ（train.txt），検証データ（valid.txt），評価データ（test.txt）を作成せよ．
-
-1. ダウンロードしたzipファイルを解凍し，readme.txtの説明を読む．
-2. 情報源（publisher）が
-    ”Reuters”, 
-    “Huffington Post”, 
-    “Businessweek”, 
-    “Contactmusic.com”, 
-    “Daily Mail”
-    の事例（記事）のみを抽出する．
-3. 抽出された事例をランダムに並び替える．
-4. 抽出された事例の80%を学習データ，
-   残りの10%ずつを
-   検証データと評価データに分割し，
-   それぞれtrain.txt，valid.txt，test.txtというファイル名で保存する．
-   ファイルには，１行に１事例を書き出すこととし，カテゴリ名と記事見出しのタブ区切り形式とせよ
-   （このファイルは後に問題70で再利用する）．
-   
-学習データと評価データを作成したら，各カテゴリの事例数を確認せよ．
+51. 特徴量抽出Permalink
+学習データ，検証データ，評価データから特徴量を抽出し，それぞれtrain.feature.txt，valid.feature.txt，test.feature.txtというファイル名で保存せよ． 
+なお，カテゴリ分類に有用そうな特徴量は各自で自由に設計せよ．
+記事の見出しを単語列に変換したものが最低限のベースラインとなるであろう．
 
 """
 
@@ -138,6 +121,7 @@ f50( df06 , '06_dir/test.txt' )
 #    13340 total
 
 
+
 ## CATEGORY	News category (b = business, t = science and technology, e = entertainment, m = health)
 
 # awk '{print $1}' train.txt| sort| uniq -c 
@@ -158,6 +142,10 @@ f50( df06 , '06_dir/test.txt' )
 #  525 e
 #   90 m
 #  153 t
+
+
+
+
 
 
 
