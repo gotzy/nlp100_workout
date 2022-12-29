@@ -119,7 +119,7 @@ def f50(df_,fname_):
     with open(fname_, 'w') as f:
         # print(colname, file=f)
         for i in range(df_.shape[0]):
-            res=[ str(x) for x in df_.iloc[i,:].values.tolist()]
+            res=[ str(x).replace('\t' ,' ') for x in df_.iloc[i,:].values.tolist()]
             res2='\t'.join(res)
             res3=res2.replace('\n','')   ### 改行コードを除去
             print(res3, file=f)
