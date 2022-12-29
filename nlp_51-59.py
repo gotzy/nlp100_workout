@@ -20,13 +20,6 @@ https://archive.ics.uci.edu/ml/machine-learning-databases/00359/NewsAggregatorDa
 
 --
 
-コピペして勉強した。
-
-https://ds-blog.tbtech.co.jp/entry/2020/08/28/%E2%96%B2%E5%BF%83%E3%81%8F%E3%81%98%E3%81%91%E3%81%9A%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86100%E6%9C%AC%E3%83%8E%E3%83%83%E3%82%AF%EF%BC%9D%EF%BC%9D50%EF%BD%9E54%EF%BC%9D%EF%BC%9D
-
-https://ds-blog.tbtech.co.jp/entry/2020/09/01/%E2%96%B2%E5%BF%83%E3%81%8F%E3%81%98%E3%81%91%E3%81%9A%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86100%E6%9C%AC%E3%83%8E%E3%83%83%E3%82%AF%EF%BC%9D%EF%BC%9D55%EF%BD%9E59%EF%BC%9D%EF%BC%9D
-
-
 
 """
 
@@ -319,9 +312,9 @@ for c, w in itertools.product(C, class_weight):
     scores = calc_scores(c, w)
     #前のスコアより高ければ結果を更新
     if scores[1] > max_valid_score:
-      max_valid_score = scores[1]
-      best_parameter = [c, w]
-      best_scores = scores
+        max_valid_score = scores[1]
+        best_parameter = [c, w]
+        best_scores = scores
     
     
 #最適なハイパーパラメータの組み合わせとスコアの表示
