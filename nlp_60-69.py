@@ -69,7 +69,6 @@ t1=datetime.datetime.now()
 
 import pandas as pd
 import numpy as np
-import math
 
 # df01 = pd.read_csv('07_dir/questions-words.txt', delimiter=' ', header=None, index_col=None, skiprows=[0])
 
