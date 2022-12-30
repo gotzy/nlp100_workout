@@ -8,3 +8,4 @@ MEMO
 25,26,27,28(regular expression)  
 40-45  
 52-59  
+66,69  
