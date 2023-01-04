@@ -22,3 +22,7 @@ https://qiita.com/nymwa/items/867e05a43060d036a174
 92  
 import MeCab でエラー (mecab-python3)  
 対処する必要あり。  
+以下がヒントになりそう。  
+https://qiita.com/G1998G/items/2ad1b62c0285e478bfab  
+
+
