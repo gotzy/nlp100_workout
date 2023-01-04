@@ -13,6 +13,6 @@ MEMO
 71-99 -> 現状、以下なので、統一する。  
 nlp_70-79.py  
 nlp_80-89d.py  
-nlp_90-99c.py  
+nlp_90-99_c.ipynb  
   
   
