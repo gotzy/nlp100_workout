@@ -1,10 +1,22 @@
 #!/usr/bin/env python
 # coding: utf-8
 
+"""
+https://qiita.com/nymwa/items/867e05a43060d036a174
+
+https://megagonlabs.github.io/ginza/
+
+
+"""
+
+
+
+
 # ### 90 データの準備
 
 # In[1]:
 
+get_ipython().system('cd 10_dir_02/')
 
 get_ipython().system(' tar zxvf kftt-data-1.0.tar.gz')
 
@@ -13,8 +25,10 @@ get_ipython().system(' tar zxvf kftt-data-1.0.tar.gz')
 
 # In[2]:
 
+# pip install -U ginza ja_ginza
+get_ipython().system("cat kftt-data-1.0/data/orig/kyoto-train.ja | sed 's/\\s+/ /g' | ginzame > train.ginza.ja\ncat kftt-data-1.0/data/orig/kyoto-dev.ja | sed 's/\\s+/ /g' | ginzame > dev.ginza.ja\ncat kftt-data-1.0/data/orig/kyoto-test.ja | sed 's/\\s+/ /g' | ginzame > test.ginza.ja")
 
-get_ipython().run_cell_magic('bash', '', "cat kftt-data-1.0/data/orig/kyoto-train.ja | sed 's/\\s+/ /g' | ginzame > train.ginza.ja\ncat kftt-data-1.0/data/orig/kyoto-dev.ja | sed 's/\\s+/ /g' | ginzame > dev.ginza.ja\ncat kftt-data-1.0/data/orig/kyoto-test.ja | sed 's/\\s+/ /g' | ginzame > test.ginza.ja\n")
+# get_ipython().run_cell_magic('bash', '', "cat kftt-data-1.0/data/orig/kyoto-train.ja | sed 's/\\s+/ /g' | ginzame > train.ginza.ja\ncat kftt-data-1.0/data/orig/kyoto-dev.ja | sed 's/\\s+/ /g' | ginzame > dev.ginza.ja\ncat kftt-data-1.0/data/orig/kyoto-test.ja | sed 's/\\s+/ /g' | ginzame > test.ginza.ja\n")
 
 
 # In[3]:
@@ -35,7 +49,8 @@ import spacy
 # In[5]:
 
 
-nlp = spacy.load('en')
+# nlp = spacy.load('en')
+nlp = spacy.load("en_core_web_sm")
 
 
 # In[6]:
@@ -92,6 +107,15 @@ for src, dst in [
 get_ipython().system(' head train.spacy.ja')
 
 
+
+
+
+
+
+
+
+
+##########################################################################
 # ### 91. 機械翻訳モデルの訓練
 
 # In[10]:
@@ -106,6 +130,12 @@ get_ipython().system('fairseq-preprocess -s ja -t en      --trainpref train.spac
 get_ipython().system(' fairseq-train data91      --fp16      --save-dir save91      --max-epoch 10      --arch transformer --share-decoder-input-output-embed      --optimizer adam --clip-norm 1.0      --lr 1e-3 --lr-scheduler inverse_sqrt --warmup-updates 2000      --update-freq 1      --dropout 0.2 --weight-decay 0.0001      --criterion label_smoothed_cross_entropy --label-smoothing 0.1      --max-tokens 8000 > 91.log')
 
 
+
+
+
+
+
+##########################################################################
 # ### 92. 機械翻訳モデルの適用
 
 # In[13]:
@@ -114,6 +144,11 @@ get_ipython().system(' fairseq-train data91      --fp16      --save-dir save91  
 get_ipython().system("fairseq-interactive --path save91/checkpoint10.pt data91 < test.spacy.ja | grep '^H' | cut -f3 > 92.out")
 
 
+
+
+
+
+##########################################################################
 # ### 93. BLEUスコアの計測
 
 # In[14]:
@@ -122,6 +157,11 @@ get_ipython().system("fairseq-interactive --path save91/checkpoint10.pt data91 <
 get_ipython().system('fairseq-score --sys 92.out --ref test.spacy.en')
 
 
+
+
+
+
+##########################################################################
 # ### 94. ビーム探索
 
 # In[15]:
@@ -157,6 +197,11 @@ plt.plot(xs, ys)
 plt.show()
 
 
+
+
+
+
+##########################################################################
 # ### 95. サブワード化
 
 # In[19]:
@@ -285,6 +330,13 @@ plt.plot(xs, ys)
 plt.show()
 
 
+
+
+
+
+
+
+##########################################################################
 # ### 96. 学習過程の可視化
 
 # In[37]:
@@ -297,6 +349,13 @@ get_ipython().system('fairseq-train data95      --fp16      --tensorboard-logdir
 # 
 # <img src='board.png'> 
 
+
+
+
+
+
+
+##########################################################################
 # ### 97. ハイパー・パラメータの調整
 
 # In[38]:
@@ -383,6 +442,12 @@ get_ipython().system('fairseq-score --sys 97b.out.spacy --ref test.spacy.en')
 get_ipython().system('fairseq-score --sys 97c.out.spacy --ref test.spacy.en')
 
 
+
+
+
+
+
+##########################################################################
 # ### 98. ドメイン適応
 
 # In[55]:
@@ -497,6 +562,23 @@ spacy_tokenize('98_2.out', '98_2.out.spacy')
 get_ipython().system('fairseq-score --sys 98_2.out.spacy --ref test.spacy.en')
 
 
+
+
+
+
+
+
+
+##########################################################################
 # ### 99. 翻訳サーバの構築
 
 # ウェブアプリケーションの形式でやるべきなので，jupyter notebook上では無理です．
+
+
+
+
+##########################################################################
+get_ipython().system('cd ../')
+
+
+

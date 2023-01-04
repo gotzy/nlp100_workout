@@ -971,7 +971,9 @@ from torch.utils.tensorboard import SummaryWriter
 writer = SummaryWriter()
 
 
-for epoch in range(30):
+
+# for epoch in range(30):
+for epoch in range(5):
     print(epoch)
     for xx, yy in loader:
         y_pred = model(xx)
