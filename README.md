@@ -19,3 +19,6 @@ nlp_90-99_c.ipynb
 90-99  
 https://qiita.com/nymwa/items/867e05a43060d036a174  
   
+92  
+import MeCab でエラー (mecab-python3)  
+対処する必要あり。  
